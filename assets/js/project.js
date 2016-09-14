@@ -74,7 +74,7 @@ function createFields(category) {
 		var saveButton = document.createElement("button");
 		saveButton.innerHTML = "Save";
 		displaySection.appendChild(saveButton);
-		saveButton.addEventListener("click", function() {
+		saveButton.addEventListener("submit", function() {
 			console.log("super!");
 		})    
 	}
@@ -91,7 +91,7 @@ function Review(category){
 				type:"text"
 			},
 			type: category.options && category.options.type ? category.options.type : {
-				label:"Genre",
+				label:"Type",
 				type:"text"
 			},
 			brand: category.options && category.options.brand ? category.options.brand : {
@@ -147,7 +147,7 @@ var Instrument = function(category) {
 
 	publicItem.options.color = category.options && category.options.color ? category.options.color: {
 		label:"Color",
-		type:"select",
+		color:"select",
 		choices:[
 			"Black",
 			"Red",
@@ -166,6 +166,12 @@ var Instrument = function(category) {
 //Child class
 var Audio = function(category) {
 	var publicItem = Review(category);
+
+	publicItem.options.genre = category.options && category.options.genre ? category.options.genre : {
+		label:"Genre",
+		genre:"text"
+	}
+
 	return publicItem;
 }
 
@@ -258,7 +264,7 @@ var Guitars = Instrument({
 				"Other"
 			]
 		},
-		style:{
+		type:{
 			label:"Acoustic/Electric",
 			type:"radio",
 			choices:[
@@ -267,7 +273,6 @@ var Guitars = Instrument({
 				"Both"
 			]
 		}
-
 	}
 });
 var Records = Audio({
