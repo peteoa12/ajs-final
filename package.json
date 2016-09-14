@@ -1,0 +1,22 @@
+{
+  "name": "advjs-es6",
+  "version": "1.0.0",
+  "description": "learning es6",
+  "main": "assets/js/script.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .eslintrc.js assets/js/script.js",
+    "build": "./node_modules/.bin/babel assets/js -d assets/lib",
+    "test": "./node_modules/.bin/jasmine",
+    "all": "npm run build && npm run lint && npm run test"
+  },
+  "author": "Peter Norman",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "browser-sync": "^2.14.3",
+    "eslint": "^3.3.1",
+    "gulp-babel": "^6.1.2",
+    "jasmine": "^2.4.1"
+  }
+}
