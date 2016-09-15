@@ -1,11 +1,24 @@
 "use strict";
 
+//Loads saved entries on load
+window.onload = function () {
+	postOnLoad();
+};
+
+//Posts entries to new section on the page
 function postEntries(entries) {
 	var display = document.getElementById("display");
 	var newSection = document.createElement("section");
 	var header = document.createElement("h2");
-	header.innerHTML = entries.name;
-	display.appendChild(newSection);
+	var deleteButton = document.createElement("button");
+	deleteButton.innerHTML = "X";
+	deleteButton.setAttribute("class", "close");
+	newSection.appendChild(deleteButton);
+	deleteButton.addEventListener("click", function () {
+		deletePost(entries.Name);
+	});
+	header.innerHTML = entries.Name;
+	newSection.appendChild(header);
 
 	for (var key in entries) {
 		//use the key and value to make a new line and add that line to the "section"
@@ -16,6 +29,23 @@ function postEntries(entries) {
 	display.appendChild(newSection);
 }
 
+//Deletes posts
+function deletePost(name) {
+	localStorage.removeItem(name);
+	postOnLoad();
+}
+
+function postOnLoad() {
+	var display = document.getElementById("display");
+	display.innerHTML = "";
+
+	for (var post in localStorage) {
+		var postData = JSON.parse(localStorage[post]);
+		postEntries(postData);
+	}
+}
+
+//Makes buttons for categories
 function createButtons(category) {
 	var list = document.getElementById("category-list"); //use query selector with # if you want
 	var listItem = document.createElement("li");
@@ -26,6 +56,7 @@ function createButtons(category) {
 	}); //Buttons on page
 }
 
+//Creates save button
 function saveButton() {
 	var form = document.getElementById("enter");
 	var saveButton = document.createElement("button");
@@ -35,12 +66,14 @@ function saveButton() {
 	form.appendChild(saveButton);
 }
 
+//Kills the default
 function onSubmit(e) {
 	e.preventDefault();
 	var forData = new FormData(document.querySelector("form"));
 	saveData();
 }
 
+//Saves data to local storage
 function saveData() {
 	var form = document.getElementById("enter"); //Grab the form
 
@@ -81,6 +114,7 @@ function saveData() {
 	console.log(localStorage);
 }
 
+//Puts fields on page
 function createFields(category) {
 	var form = document.getElementById("enter");
 	form.innerHTML = "";
@@ -144,7 +178,7 @@ function createFields(category) {
 
 	saveButton();
 }
-// console.log(createFields());
+
 //Parent class
 function Review(category) {
 	var publicItem = {
@@ -288,4 +322,4 @@ var Records = Audio({
 
 // console.log(createFields());
 
-localStorage.clear();
+// localStorage.clear();
