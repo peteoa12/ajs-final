@@ -9,6 +9,19 @@ function createButtons (category) {
 	})      //Buttons on page
 }
 
+function saveButton (category) {
+	var displaySection = document.getElementById("display");
+	if ( document.querySelector("#display button") ) {
+		displaySection.removeChild( document.querySelector("#display button") );
+	}
+	var saveButton = document.createElement("button");
+	saveButton.innerHTML = "Save";
+	displaySection.appendChild(saveButton);
+	saveButton.addEventListener("submit", function() {
+		console.log("super!");
+	})    
+}
+
 function createFields(category) {
 	var form = document.getElementById("enter");
 	form.innerHTML = "";
@@ -66,18 +79,6 @@ function createFields(category) {
 		form.appendChild(container);
 	}//Fields on page
 
-	function saveButton (category) {
-		var displaySection = document.getElementById("display");
-		if ( document.querySelector("#display button") ) {
-			displaySection.removeChild( document.querySelector("#display button") );
-		}
-		var saveButton = document.createElement("button");
-		saveButton.innerHTML = "Save";
-		displaySection.appendChild(saveButton);
-		saveButton.addEventListener("submit", function() {
-			console.log("super!");
-		})    
-	}
 	saveButton();
 }
 // console.log(createFields());
