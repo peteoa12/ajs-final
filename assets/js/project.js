@@ -1,4 +1,24 @@
-// console.log("I'm workin'!");
+
+
+function postEntries(entries){
+	var display = document.getElementById("display");
+	var newSection = document.createElement("section");
+	var header = document.createElement("h2");
+	header.innerHTML = entries.name;
+	display.appendChild(newSection);
+
+	for(var key in entries) {
+		//use the key and value to make a new line and add that line to the "section"
+		let container = document.createElement("div");
+		container.innerHTML = `${entries[key]}`;
+		newSection.appendChild(container);
+	}
+	display.appendChild(newSection);
+}
+
+
+
+
 function createButtons (category) {
 	var list = document.getElementById("category-list");//use query selector with # if you want
 	var listItem = document.createElement("li");
@@ -9,17 +29,37 @@ function createButtons (category) {
 	})      //Buttons on page
 }
 
-function saveButton (category) {
-	var displaySection = document.getElementById("display");
-	if ( document.querySelector("#display button") ) {
-		displaySection.removeChild( document.querySelector("#display button") );
-	}
+function saveButton () {
+	var form = document.getElementById("enter");
 	var saveButton = document.createElement("button");
 	saveButton.innerHTML = "Save";
-	displaySection.appendChild(saveButton);
-	saveButton.addEventListener("submit", function() {
-		console.log("super!");
-	})    
+	form.removeEventListener("submit", onSubmit);
+	form.addEventListener("submit", onSubmit);
+	form.appendChild(saveButton);   
+}
+
+function onSubmit(e) {
+	e.preventDefault();
+	var forData = new FormData(document.querySelector("form"));
+	saveData();
+}
+
+function saveData() {
+	var form = document.getElementById("enter"); //Grab the form
+	
+	console.log("submit 2"); //Let me know I've submitted properly
+	var formData = new FormData(form); //Making a form data object for the form
+	var entries = {}; //Empty object that form input will live in
+	for(var pair of formData.entries()){ //Loops through the pairs that we get back from forData.entries
+		console.log(pair); // What is being paired
+		entries[pair[0]] = pair[1]; //Breaks the array apart and turns it into an object.
+	}
+	console.log(entries);
+	var JSONData = JSON.stringify(entries); //turns the entire object into one string of JSON
+	localStorage.setItem(entries.Name, JSONData);//Saves it to local storage
+	// JSON.parse(localStorage.entries);
+	postEntries(entries);
+	console.log(localStorage);
 }
 
 function createFields(category) {
@@ -107,6 +147,7 @@ function Review(category){
 				label:"Rating",
 				type:"select",
 				choices:[
+					" ",
 					"1: Worthless.",
 					"2: Not my speed.",
 					"3: It was just...Ok.",
@@ -133,9 +174,18 @@ function Review(category){
 var Game = function(category) {
 	var publicItem = Review(category);
 
-	publicItem.options.title = category.options && category.options.title ? category.options.title: {
-		label:"Game title",
-		type:"text"
+	publicItem.options.system = category.options && category.options.system ? category.options.system: {
+		label:"System",
+		type:"select",
+		choices:[
+			" ",
+			"Nintendo",
+			"Sega Genesis",
+			"Playstation",
+			"XBOX",
+			"PC",
+			"Mobile/Tablet"
+		]
 	}
 
 	return publicItem;
@@ -148,8 +198,9 @@ var Instrument = function(category) {
 
 	publicItem.options.color = category.options && category.options.color ? category.options.color: {
 		label:"Color",
-		color:"select",
+		type:"select",
 		choices:[
+			" ",
 			"Black",
 			"Red",
 			"White",
@@ -179,19 +230,6 @@ var Audio = function(category) {
 var VideoGames = Game({
 	categoryName:"Video Games",
 	options:{
-		name:{
-			label:"Gaming System",
-			type:"select",
-			choices:[
-				" ",
-				"1: Nintendo",
-				"2: Sega Genesis",
-				"3: Sony Playstation",
-				"4: XBOX",
-				"5: PC",
-				"6: Mobile/Tablet"
-			]
-		},
 		type:{
 			label:"Game Category",
 			type:"select",
@@ -279,7 +317,7 @@ var Guitars = Instrument({
 var Records = Audio({
 	categoryName:"Records",
 	options:{
-		artist:{
+		type:{
 			label:"Artist",
 			type:"text"
 		},
@@ -287,6 +325,7 @@ var Records = Audio({
 			label:"Genre",
 			type:"select",
 			choices:[
+				" ",
 				"Classical",
 				"Rock",
 				"R & B",
@@ -303,7 +342,8 @@ var Records = Audio({
 			label:"Era",
 			type:"select",
 			choices:[
-				"Pre-Century",
+				" ",
+				"Pre 20th Century",
 				"20's",
 				"30's",
 				"40's",
@@ -320,4 +360,4 @@ var Records = Audio({
 
 // console.log(createFields());
 
-
+localStorage.clear();
