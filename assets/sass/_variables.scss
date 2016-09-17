@@ -1,0 +1,21 @@
+
+* {
+	box-sizing: border-box;
+}
+
+
+$dark-gray:#484A47;
+$light-green:#C1CE96;
+$white:#ECEBF0;
+$dark-green:#687D77;
+$dark-brown:#353129;
+
+
+//Hover states
+@mixin trans {
+	transition:all 0.25s ease-in-out;
+}
+
+@mixin hover-green {
+	background-color:$light-green;
+}

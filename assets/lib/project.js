@@ -61,6 +61,7 @@ function saveButton() {
 	var form = document.getElementById("enter");
 	var saveButton = document.createElement("button");
 	saveButton.innerHTML = "Save";
+	saveButton.setAttribute("class", "save");
 	form.removeEventListener("submit", onSubmit);
 	form.addEventListener("submit", onSubmit);
 	form.appendChild(saveButton);

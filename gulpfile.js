@@ -17,7 +17,6 @@ gulp.task('browser-sync', function(){
     });
 });
 
-
 gulp.task('build', function() {
     return gulp.src('assets/js/*.js')
         .pipe(babel({

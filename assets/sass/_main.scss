@@ -1,0 +1,198 @@
+@import 'reset';
+@import 'susy' ;
+@import '../../node_modules/breakpoint-sass/stylesheets/breakpoint';
+@import "variables";
+
+
+$susy: (
+  flow: ltr, 
+  output: float, 
+  math: fluid, 
+  column-width: 40px, 
+  container: 90%,
+  container-position: center, 
+  last-flow: to,
+  columns: 12,
+  gutters: 0.25,
+  gutter-position: after, 
+  global-box-sizing: border-box, 
+);
+
+$medium: 700px;
+$large: 960px;
+
+
+body {
+	@include full;
+	font-family: 'Dosis', sans-serif;
+	background-color: $dark-gray;
+	// font-family: sans-serif;
+	// height: 100%;
+	// width: 100%;
+	// float: left;
+	// margin: 0;
+	// padding: 0;
+}
+
+h1 {
+	@include full;
+	margin-bottom: span(0.7);
+	background-color: $dark-brown;
+	text-align: center;
+	padding: span(0.5);
+	font-size: 3em;
+	color: $white;
+}
+
+ul {
+	@include container;
+	margin-top: span(1);
+}
+
+li {
+	background-color: $dark-green;
+	color:$white;
+	cursor: pointer;
+	list-style: none;
+	padding: 20px;
+	text-align: center;
+	margin-bottom: span(0.5);
+	font-size: 1.75em;
+	border-radius: 4px;
+	border:solid 1px $dark-brown;
+	@include full;
+	@include trans;
+
+	&:hover {
+		@include hover-green;
+		color:$dark-green;
+	}
+
+	@include breakpoint($medium) {
+		@include gallery(4 of 8);
+	}
+
+	@include breakpoint($large) {
+		@include gallery(3 of 12);
+	}
+}
+
+form {
+	@include container;
+	margin:span(1);
+
+	// @include breakpoint($medium) {
+	// 	@include span(4 of 8);
+	// }
+
+	.save {
+		@include full ;
+		@extend li;
+		font-size: 1.2em;
+
+		@include breakpoint($medium) {
+			@include span(4);
+		}
+
+
+		@include breakpoint($large) {
+			@include span(2);
+		}
+	}
+}
+
+fieldset {
+	@include full;
+	@include trans ;
+	margin:span(0.5);
+	// border: 1px solid $dark-brown;
+	color: $white;
+	height: 100px;
+
+	@include breakpoint($medium) {
+		@include gallery(4 of 8);
+	}
+
+	@include breakpoint($large) {
+		@include gallery(3 of 12);
+	}
+
+	label {
+		font-size:1em;
+		display: table-cell;
+		padding-bottom: 15px;
+	}
+
+	input[type="radio"] {
+		margin: span(0.5);
+		
+	}
+}
+
+
+#display {
+	@include container;
+	border-top: 1px solid $dark-brown;
+
+	section {
+		position: relative;
+		margin: span(1);
+		border-radius: 8px;
+		// border: 2px solid $dark-brown;
+		background-color: $white;
+		@include full;
+
+		@include breakpoint($medium) {
+			@include gallery(4 of 8);
+		}
+
+		@include breakpoint($large) {
+			@include gallery(3 of 9);
+		}
+	}
+
+	h2 {
+		font-size: 1.5em;
+		background-color: $dark-green;
+		color: $white;
+		text-align: center;
+		padding:20px;
+		border-top-left-radius:8px;
+		border-top-right-radius:8px;
+	}
+
+	div {
+		@include gallery(4 of 8);
+		padding:10px;
+
+	}
+
+	button {
+		border-radius: 100%;
+		color: $white;
+		background-color: $dark-brown;
+		font-weight: 300;
+		font-size: 1em;
+		text-align: center;
+		@include trans ;
+
+		&:hover {
+			color: $dark-brown;
+			background-color: $light-green;
+		}
+	}
+
+	.close {
+		position: absolute;
+		right: 10px;
+		top: 5px;
+		padding-top: 2px;
+		width: 25px;
+		height: 25px;
+		border: transparent;
+	}
+
+}
+
+	
+/*# sourceMappingURL=_main.css.map */
