@@ -265,6 +265,16 @@ fieldset label {
   padding-bottom: 15px;
 }
 
+@media (min-width: 700px) {
+  fieldset label {
+    font-size: 1em;
+  }
+}
+
+fieldset input, fieldset textarea {
+  border-radius: 4px;
+}
+
 fieldset input[type="radio"] {
   margin: 2.54237%;
 }

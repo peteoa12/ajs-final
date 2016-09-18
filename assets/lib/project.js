@@ -323,4 +323,4 @@ var Records = Audio({
 
 // console.log(createFields());
 
-// localStorage.clear();
+localStorage.clear();

@@ -121,6 +121,14 @@ fieldset {
 		font-size:1em;
 		display: table-cell;
 		padding-bottom: 15px;
+
+		@include breakpoint($medium) {
+			font-size: 1em;
+		}
+	}
+
+	input, textarea {
+		border-radius: 4px;
 	}
 
 	input[type="radio"] {
