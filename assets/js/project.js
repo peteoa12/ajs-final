@@ -76,19 +76,19 @@ function onSubmit(e) {
 function saveData() {
 	var form = document.getElementById("enter"); //Grab the form
 	
-	console.log("submit 2"); //Let me know I've submitted properly
+	// console.log("submit 2"); //Let me know I've submitted properly
 	var formData = new FormData(form); //Making a form data object for the form
 	var entries = {}; //Empty object that form input will live in
 	for(var pair of formData.entries()){ //Loops through the pairs that we get back from forData.entries
-		console.log(pair); // What is being paired
+		// console.log(pair); // What is being paired
 		entries[pair[0]] = pair[1]; //Breaks the array apart and turns it into an object.
 	}
-	console.log(entries);
+	// console.log(entries);
 	var JSONData = JSON.stringify(entries); //turns the entire object into one string of JSON
 	localStorage.setItem(entries.Name, JSONData);//Saves it to local storage
 	// JSON.parse(localStorage.entries);
 	postEntries(entries);
-	console.log(localStorage);
+	// console.log(localStorage);
 }
 
 //Puts fields on page
@@ -390,4 +390,4 @@ var Records = Audio({
 
 // console.log(createFields());
 
-localStorage.clear();
+// localStorage.clear();
