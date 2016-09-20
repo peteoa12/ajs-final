@@ -118,7 +118,7 @@ fieldset {
 	}
 
 	label {
-		font-size:1em;
+		font-size:1.2em;
 		display: table-cell;
 		padding-bottom: 15px;
 
@@ -171,7 +171,14 @@ fieldset {
 
 	div {
 		@include gallery(4 of 8);
+		font-family: 'Dosis', sans-serif;
 		padding:10px;
+
+		h5 {
+			font-weight: bold;
+			font-family: 'Helvetica', arial, sans-serif;
+
+		}
 
 	}
 

@@ -5,6 +5,99 @@ window.onload = function () {
 	postOnLoad();
 };
 
+function postOnLoad() {
+	var display = document.getElementById("display");
+	display.innerHTML = "";
+
+	for (var post in localStorage) {
+		var postData = JSON.parse(localStorage[post]);
+		postEntries(postData);
+	}
+}
+
+//Puts fields on page
+function createFields(category) {
+	var form = document.getElementById("enter");
+	form.innerHTML = "";
+
+	var _loop = function _loop(fieldType) {
+		var item = category.options[fieldType];
+		var container = document.createElement("fieldset");
+		var inputLabel = document.createElement("label");
+		var inputItem = void 0;
+		inputLabel.innerHTML = item.label + ": ";
+
+		if (item.type == "text area") {
+			inputItem = document.createElement("textarea");
+			inputItem.setAttribute("name", item.label);
+		} else if (item.type == "select") {
+			inputItem = document.createElement("select");
+			inputItem.setAttribute("name", item.label);
+
+			item.choices.forEach(function (choice) {
+				var option = document.createElement("option");
+				option.innerHTML = choice;
+				option.setAttribute("value", choice);
+				inputItem.appendChild(option);
+			});
+		} else if (item.type == "radio") {
+			inputItem = document.createElement("span");
+			item.choices.forEach(function (choice) {
+				var option = document.createElement("input");
+				var optionLabel = document.createElement("label");
+				option.setAttribute("type", item.type);
+				option.setAttribute("name", item.label);
+				option.setAttribute("value", choice);
+				optionLabel.innerHTML = choice + " ";
+
+				inputItem.appendChild(option);
+				inputItem.appendChild(optionLabel);
+			});
+		} else {
+			inputItem = document.createElement("input");
+			inputItem.setAttribute("name", item.label);
+			inputItem.setAttribute("type", item.type);
+		}
+
+		container.appendChild(inputLabel);
+		container.appendChild(inputItem);
+		form.appendChild(container);
+	};
+
+	for (var fieldType in category.options) {
+		_loop(fieldType);
+	}
+	saveButton();
+}
+
+//Makes buttons for categories
+function createButtons(category) {
+	var list = document.getElementById("category-list");
+	var listItem = document.createElement("li");
+	listItem.innerHTML = category.categoryName;
+	list.appendChild(listItem);
+	listItem.addEventListener("click", function () {
+		createFields(category);
+	});
+}
+
+//Creates save button
+function saveButton() {
+	var form = document.getElementById("enter");
+	var saveButton = document.createElement("button");
+	saveButton.innerHTML = "Save";
+	saveButton.setAttribute("class", "save");
+	form.removeEventListener("submit", onSubmit);
+	form.addEventListener("submit", onSubmit);
+	form.appendChild(saveButton);
+}
+
+function onSubmit(e) {
+	e.preventDefault();
+	var forData = new FormData(document.querySelector("form"));
+	saveData();
+}
+
 //Posts entries to new section on the page
 function postEntries(entries) {
 	var display = document.getElementById("display");
@@ -21,9 +114,8 @@ function postEntries(entries) {
 	newSection.appendChild(header);
 
 	for (var key in entries) {
-		//use the key and value to make a new line and add that line to the "section"
 		var container = document.createElement("div");
-		container.innerHTML = "" + entries[key];
+		container.innerHTML = "<h5>" + key + ":</h5> " + entries[key];
 		newSection.appendChild(container);
 	}
 	display.appendChild(newSection);
@@ -35,52 +127,11 @@ function deletePost(name) {
 	postOnLoad();
 }
 
-function postOnLoad() {
-	var display = document.getElementById("display");
-	display.innerHTML = "";
-
-	for (var post in localStorage) {
-		var postData = JSON.parse(localStorage[post]);
-		postEntries(postData);
-	}
-}
-
-//Makes buttons for categories
-function createButtons(category) {
-	var list = document.getElementById("category-list"); //use query selector with # if you want
-	var listItem = document.createElement("li");
-	listItem.innerHTML = category.categoryName;
-	list.appendChild(listItem);
-	listItem.addEventListener("click", function () {
-		createFields(category);
-	}); //Buttons on page
-}
-
-//Creates save button
-function saveButton() {
-	var form = document.getElementById("enter");
-	var saveButton = document.createElement("button");
-	saveButton.innerHTML = "Save";
-	saveButton.setAttribute("class", "save");
-	form.removeEventListener("submit", onSubmit);
-	form.addEventListener("submit", onSubmit);
-	form.appendChild(saveButton);
-}
-
-//Kills the default
-function onSubmit(e) {
-	e.preventDefault();
-	var forData = new FormData(document.querySelector("form"));
-	saveData();
-}
-
 //Saves data to local storage
 function saveData() {
-	var form = document.getElementById("enter"); //Grab the form
-
-	// console.log("submit 2"); //Let me know I've submitted properly
-	var formData = new FormData(form); //Making a form data object for the form
-	var entries = {}; //Empty object that form input will live in
+	var form = document.getElementById("enter");
+	var formData = new FormData(form);
+	var entries = {};
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
 	var _iteratorError = undefined;
@@ -88,11 +139,9 @@ function saveData() {
 	try {
 		for (var _iterator = formData.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 			var pair = _step.value;
-			//Loops through the pairs that we get back from forData.entries
-			// console.log(pair); // What is being paired
-			entries[pair[0]] = pair[1]; //Breaks the array apart and turns it into an object.
+
+			entries[pair[0]] = pair[1];
 		}
-		// console.log(entries);
 	} catch (err) {
 		_didIteratorError = true;
 		_iteratorError = err;
@@ -108,79 +157,11 @@ function saveData() {
 		}
 	}
 
-	var JSONData = JSON.stringify(entries); //turns the entire object into one string of JSON
-	localStorage.setItem(entries.Name, JSONData); //Saves it to local storage
-	// JSON.parse(localStorage.entries);
+	var JSONData = JSON.stringify(entries);
+	localStorage.setItem(entries.Name, JSONData);
 	postEntries(entries);
-	// console.log(localStorage);
 }
 
-//Puts fields on page
-function createFields(category) {
-	var form = document.getElementById("enter");
-	form.innerHTML = "";
-
-	var _loop = function _loop(fieldType) {
-		// console.log(fieldType);
-		var item = category.options[fieldType];
-		// console.log(item);
-		var container = document.createElement("fieldset");
-		var inputLabel = document.createElement("label");
-		var inputItem = void 0;
-		inputLabel.innerHTML = item.label + ": ";
-
-		//text, text area, select, radio
-		if (item.type == "text area") {
-			//text area
-			inputItem = document.createElement("textarea");
-			inputItem.setAttribute("name", item.label);
-		} else if (item.type == "select") {
-			//select
-			inputItem = document.createElement("select");
-			inputItem.setAttribute("name", item.label);
-
-			item.choices.forEach(function (choice) {
-				var option = document.createElement("option");
-				option.innerHTML = choice;
-				option.setAttribute("value", choice);
-				inputItem.appendChild(option);
-			});
-		} else if (item.type == "radio") {
-			//radio
-			inputItem = document.createElement("span");
-			item.choices.forEach(function (choice) {
-				var option = document.createElement("input");
-				var optionLabel = document.createElement("label");
-				option.setAttribute("type", item.type);
-				option.setAttribute("name", item.label);
-				option.setAttribute("value", choice);
-				optionLabel.innerHTML = choice + " ";
-
-				inputItem.appendChild(option);
-				inputItem.appendChild(optionLabel);
-			});
-			// inputItem = document.createElement("radio");
-			// inputItem.setAttribute("name", item.label);
-		} else {
-			//text
-			inputItem = document.createElement("input");
-			inputItem.setAttribute("name", item.label);
-			inputItem.setAttribute("type", item.type);
-		}
-
-		container.appendChild(inputLabel);
-		container.appendChild(inputItem);
-		form.appendChild(container);
-	};
-
-	for (var fieldType in category.options) {
-		_loop(fieldType);
-	} //Fields on page
-
-	saveButton();
-}
-
-//Parent class
 function Review(category) {
 	var publicItem = {
 		categoryName: category.categoryName,
@@ -218,7 +199,6 @@ function Review(category) {
 	return publicItem;
 };
 
-//Child class
 var Game = function Game(category) {
 	var publicItem = Review(category);
 
@@ -271,6 +251,7 @@ var VideoGames = Game({
 		}
 	}
 });
+
 var Keyboards = Instrument({
 	categoryName: "Keyboards",
 	options: {
@@ -286,6 +267,7 @@ var Keyboards = Instrument({
 		}
 	}
 });
+
 var Guitars = Instrument({
 	categoryName: "Guitars",
 	options: {
@@ -301,6 +283,7 @@ var Guitars = Instrument({
 		}
 	}
 });
+
 var Records = Audio({
 	categoryName: "Records",
 	options: {
@@ -320,7 +303,5 @@ var Records = Audio({
 		}
 	}
 });
-
-// console.log(createFields());
 
 // localStorage.clear();

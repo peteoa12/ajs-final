@@ -260,7 +260,7 @@ fieldset {
 }
 
 fieldset label {
-  font-size: 1em;
+  font-size: 1.2em;
   display: table-cell;
   padding-bottom: 15px;
 }
@@ -358,6 +358,7 @@ fieldset input[type="radio"] {
 #display div {
   width: 48.71795%;
   float: left;
+  font-family: 'Dosis', sans-serif;
   padding: 10px;
 }
 
@@ -372,6 +373,11 @@ fieldset input[type="radio"] {
   margin-left: 51.28205%;
   margin-right: -100%;
   clear: none;
+}
+
+#display div h5 {
+  font-weight: bold;
+  font-family: 'Helvetica', arial, sans-serif;
 }
 
 #display button {
